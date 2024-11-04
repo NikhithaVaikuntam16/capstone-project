@@ -93,7 +93,7 @@ const RegistrationForm = () => {
       });
     } else {
       try {
-        const result = await axios.post("/api/auth/register", {
+        const result = await axios.post("/api/user/register", {
           email: user.email,
           password: user.password,
         }, {
