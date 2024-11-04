@@ -1,0 +1,82 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-container {
+    max-width: 400px;
+    margin: 5% auto;
+    letter-spacing: 1px;
+}
+
+.form-heading {
+    text-align: center;
+    /* color: rgba(7, 7, 7, 0.95) */;
+    color: rgb(102, 76, 95)
+}
+
+.form-container form {
+    background-color: rgb(250, 247, 247);
+    padding: 20px 20px 30px;
+    border-radius: 10px;
+    box-shadow: 3px 4px 9px 0px rgb(0 0 0 / 45%);
+}
+
+.submitBtn{
+    padding: 7px 15px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    background-color: rgb(156, 138, 152);
+    color: white;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: block;
+    width: 100%;
+    margin: 2rem auto 0 auto;
+}
+
+.submitBtn:hover {
+    background-color: rgb(228, 220, 220);
+    color: black;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    gap: 7px;
+    font-size: 15px;
+}
+
+.input-container input {
+    padding: 5px;
+    font-size: 16px;
+}
+
+.span-errors {
+    color: red;
+    font-size: 12px;
+}
+
+.toggleBtn {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    text-decoration: underline;
+    display: block;
+    margin: 20px auto;
+    font-size: 0.9rem;
+    letter-spacing: 0.7px;
+}
+
+.toggleBtn:hover {
+    color: gray;
+}
+
