@@ -85,3 +85,27 @@ body {
     color: gray;
 }
 
+.home-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding: 1.3rem 1.2rem;
+}
+
+.homepage-image img{
+    width: 100vw;
+    height: 93vh;
+    object-fit: fill;
+    overflow: hidden;
+}
+
+@media (max-width: 1300px) {
+    .homepage-image img {
+        object-fit: cover;
+    }
+}
