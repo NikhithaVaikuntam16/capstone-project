@@ -48,7 +48,6 @@ const RegistrationForm = () => {
   };
 
   const handleChange = (event) => {
-    console.log("input change");
     const { name, value } = event.target;
     setUser((prevData) => {
       return {
@@ -93,27 +92,26 @@ const RegistrationForm = () => {
       });
     } else {
       try {
-        const result = await axios.post("/api/user/register", {
-          email: user.email,
-          password: user.password,
-        }, {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+        const result = await axios.post(
+          "/api/user/register",
+          {
+            email: user.email,
+            password: user.password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
           }
-        });
-        console.log("result",result);
+        );
         setUser({
           email: "",
           password: "",
-          confirmPassword: ""
-        })
+          confirmPassword: "",
+        });
       } catch (err) {
-        console.log("Error caught while registering:", err);
-        setErrors((prevErr) => {
-          return {
-            ...prevErr,
-            email: err.response.data.message
-          }
+        setErrors({
+          email: err.response.data.error,
         });
       }
     }
@@ -151,7 +149,9 @@ const RegistrationForm = () => {
           Submit
         </button>
       </form>
-      <Link to="/login">Already existing user? Login</Link>
+      <Link to="/login" className="toggleBtn">
+        Already existing user? Login
+      </Link>
     </div>
   );
 };

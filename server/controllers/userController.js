@@ -10,7 +10,7 @@ export const registerUser = async (req, res) => {
   try {
     const user = await getUserByEmail(email);
     if (user) {
-      res.status(400).json({ error: "Email already exists" });
+      res.status(400).json({ error: "This Email already exists. Please try logging in." });
     } else {
       const hash = await bcrypt.hash(password, parseInt(process.env.SALT_ROUNDS));
       await createUser(email, hash);

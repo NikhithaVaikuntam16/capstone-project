@@ -65,6 +65,10 @@ body {
     font-size: 12px;
 }
 
+.general-error {
+    line-height: 2rem;
+}
+
 .toggleBtn {
     border: none;
     background-color: transparent;
@@ -74,6 +78,7 @@ body {
     margin: 20px auto;
     font-size: 0.9rem;
     letter-spacing: 0.7px;
+    text-align: center;
 }
 
 .toggleBtn:hover {
