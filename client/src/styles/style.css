@@ -104,3 +104,8 @@ body {
     overflow: hidden;
 }
 
+@media (max-width: 1300px) {
+    .homepage-image img {
+        object-fit: cover;
+    }
+}
