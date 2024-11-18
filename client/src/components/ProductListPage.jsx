@@ -23,7 +23,7 @@ const ProductListPage = () => {
 
   return (
     <div className="products-list">
-      {products.map((product) => {
+      {products?.map((product) => {
         return (
           <div className="product" key={product.id}>
             <div className="product-image">
@@ -31,7 +31,9 @@ const ProductListPage = () => {
             </div>
             <div className="product-info">
               <h3>
-                <Link to={`/products/${product.id}`} className="product-link">{product.name}</Link>
+                <Link to={`/products/${product.id}`} className="product-link">
+                  {product.name}
+                </Link>
               </h3>
               <p>${product.price}</p>
             </div>

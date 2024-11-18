@@ -5,6 +5,7 @@ import RegistrationForm from "./components/RegistrationForm";
 import LoginForm from "./components/LoginForm";
 import NavBar from "./components/NavBar";
 import ProductListPage from "./components/ProductListPage";
+import ProductDetailPage from "./components/ProductDetailPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,12 +20,13 @@ const App = () => {
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-      <NavBar />
+        <NavBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/category/:id" element={<ProductListPage />} />
+          <Route path="/products/:id" element={<ProductDetailPage />} />
         </Routes>
       </QueryClientProvider>
     </BrowserRouter>
