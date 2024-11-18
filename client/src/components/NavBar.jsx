@@ -4,7 +4,11 @@ import { Icon } from "@iconify/react";
 import fetchCategories from "../api/fetchCategories";
 
 const NavBar = () => {
-  const { data : categories, isLoading, isError } = useQuery({
+  const {
+    data: categories,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["categories"],
     queryFn: fetchCategories,
   });
@@ -24,7 +28,7 @@ const NavBar = () => {
           <Icon icon="logos:shopify" className="logo" />
         </Link>
         <ul className="category-list">
-          {categories.map((category) => {
+          {categories?.map((category) => {
             return (
               <li key={category.id}>
                 <Link to={`/category/${category.id}`} className="links">
