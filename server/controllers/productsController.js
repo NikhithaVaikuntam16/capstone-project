@@ -30,11 +30,10 @@ export const getProductDetails = async (req, res) => {
 
 export const getStockAvailability = async (req, res) => {
     const {id} = req.params;
-    const {quantity} = req.query;
     try {
         const result = await getProductById(id);
         if(result.length > 0) {
-            res.status(200).json({availability : (result[0].stock >= parseInt(quantity))});
+            res.status(200).json({stock : result[0].stock});
         }else {
             res.status(400).json({message: "Product not found"});
         }

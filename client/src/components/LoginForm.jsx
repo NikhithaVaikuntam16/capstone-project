@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import InputContainer from "./InputContainer";
+import CartContext from "./CartContext";
 
 const LoginForm = () => {
   const [user, setUser] = useState({
@@ -15,6 +16,7 @@ const LoginForm = () => {
     generalError: "",
   });
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useContext(CartContext);
 
   const validateEmail = (email) => {
     const regex = /^[^\s+_@-]+@[^\s+_@-]+\.[^\s+_@-]+$/;
@@ -64,6 +66,7 @@ const LoginForm = () => {
         });
         if (response.status === 200) {
           localStorage.setItem("token", response.data.token);
+          setIsLoggedIn(true);
           navigate("/");
         }
       } catch (err) {
