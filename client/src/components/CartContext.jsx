@@ -22,8 +22,6 @@ export const CartProvider = ({ children }) => {
     };
 
     fetchCart();
-    const localCart = localStorage.getItem("cart");
-    setCart(localCart ? JSON.parse(localCart) : []);
   }, [isLoggedIn]);
 
   useEffect(() => {
@@ -33,18 +31,6 @@ export const CartProvider = ({ children }) => {
   }, [cart, isLoggedIn]);
 
   const addToCart = async (product) => {
-    setCart((prevCartItems) => {
-      const existingProductIndex = prevCartItems.findIndex(
-        (item) => item.productId === product.productId,
-      );
-      if (existingProductIndex >= 0) {
-        const updatedCart = [...prevCartItems];
-        updatedCart[existingProductIndex].quantity += product.quantity;
-        return updatedCart;
-      }
-      return [...prevCartItems, product];
-    });
-
     if (isLoggedIn) {
       try {
         await axios.post("/api/cart", product, {
@@ -53,9 +39,26 @@ export const CartProvider = ({ children }) => {
             "Content-Type": "application/json",
           },
         });
+        const cartItems = await fetchCartItems();
+        setCart(cartItems);
       } catch (err) {
         console.log("Error while adding items to cart:", err);
       }
+    }else {
+      setCart((prevCartItems) => {
+        const existingProductIndex = prevCartItems.findIndex(
+          (item) => item.product_id === product.productId,
+        );
+        if (existingProductIndex >= 0) {
+          const updatedCart = [...prevCartItems];
+          updatedCart[existingProductIndex].quantity += product.quantity;
+          return updatedCart;
+        }
+        return [
+          ...prevCartItems,
+          { product_id: product.productId, quantity: product.quantity },
+        ];
+      });
     }
   };
 

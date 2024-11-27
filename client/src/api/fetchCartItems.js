@@ -8,7 +8,8 @@ const fetchCartItems = async () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      return result.data;
+      const cartArray = result.data.cart;
+      return cartArray.length > 0 ? cartArray : [];
     } catch (err) {
       console.log("Error while fetching cart items:", err);
     }

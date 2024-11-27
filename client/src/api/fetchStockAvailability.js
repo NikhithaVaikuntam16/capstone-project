@@ -6,7 +6,7 @@ const fetchStockAvailability = async (productId, quantity, cart) => {
     const response = await axios.get(`/api/products/${id}/stock`);
     const stockAvailability = response.data.stock;
     const reservedQuantity =
-      cart.find((item) => item.productId === id)?.quantity || 0;
+      cart.find((item) => parseInt(item.product_id) === parseInt(id))?.quantity || 0;
     return {
       availability: stockAvailability >= (reservedQuantity + quantity),
     };

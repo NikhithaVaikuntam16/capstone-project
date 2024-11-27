@@ -5,12 +5,12 @@ export const getProducts = async (req, res) => {
     try {
         const products = await getProductsByCategoryId(categoryId);
         if(products.length > 0) {
-            res.status(200).json({products});
+            return res.status(200).json({products});
         }else {
-            res.status(400).json({message: "No products found"});
+            return res.status(400).json({message: "No products found"});
         }
     }catch(err) {
-        res.status(500).json("Something went wrong while fetching products");
+        return res.status(500).json("Something went wrong while fetching products");
     }
 };
 
@@ -19,12 +19,12 @@ export const getProductDetails = async (req, res) => {
     try {
         const result = await getProductById(id);
         if(result.length > 0) {
-            res.status(200).json({productDetails : result[0]});
+            return res.status(200).json({productDetails : result[0]});
         }else {
-            res.status(400).json({message: "Product details not found"});
+            return res.status(400).json({message: "Product details not found"});
         }
     }catch(err) {
-        res.status(500).json("Something went wrong while fetching product details");
+        return res.status(500).json("Something went wrong while fetching product details");
     }
 };
 
@@ -33,11 +33,11 @@ export const getStockAvailability = async (req, res) => {
     try {
         const result = await getProductById(id);
         if(result.length > 0) {
-            res.status(200).json({stock : result[0].stock});
+            return res.status(200).json({stock : result[0].stock});
         }else {
-            res.status(400).json({message: "Product not found"});
+            return res.status(400).json({message: "Product not found"});
         }
     }catch(err) {
-        res.status(500).json("Something went wrong while checking stock availability");
+        return res.status(500).json("Something went wrong while checking stock availability");
     }
 };

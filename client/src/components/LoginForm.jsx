@@ -16,7 +16,7 @@ const LoginForm = () => {
     generalError: "",
   });
   const navigate = useNavigate();
-  const { setIsLoggedIn } = useContext(CartContext);
+  const { setIsLoggedIn, syncCartToDatabase } = useContext(CartContext);
 
   const validateEmail = (email) => {
     const regex = /^[^\s+_@-]+@[^\s+_@-]+\.[^\s+_@-]+$/;
@@ -66,8 +66,9 @@ const LoginForm = () => {
         });
         if (response.status === 200) {
           localStorage.setItem("token", response.data.token);
-          setIsLoggedIn(true);
           navigate("/");
+          await syncCartToDatabase();
+          setIsLoggedIn(true);
         }
       } catch (err) {
         const { message } = err.response?.data || {};

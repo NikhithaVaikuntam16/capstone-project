@@ -7,7 +7,7 @@ import CartContext from "./CartContext";
 
 const NavBar = () => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const { getCartCount, isLoggedIn } = useContext(CartContext);
+  const { getCartCount, isLoggedIn, setIsLoggedIn } = useContext(CartContext);
   const {
     data: categories,
     isLoading,
@@ -28,6 +28,12 @@ const NavBar = () => {
   const handleLinkClick = () => {
     setIsMenuVisible(false);
   };
+
+  const handleLogout = () => {
+    setIsMenuVisible(false);
+    localStorage.removeItem("token");
+    setIsLoggedIn(!!localStorage.getItem("token"));
+  }
 
   return (
     <div className="navbar">
@@ -83,7 +89,7 @@ const NavBar = () => {
                       <Link
                         to="/"
                         className="profile-links"
-                        onClick={handleLinkClick}
+                        onClick={handleLogout}
                       >
                         Logout
                       </Link>
