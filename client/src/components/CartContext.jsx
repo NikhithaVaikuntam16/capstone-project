@@ -44,10 +44,10 @@ export const CartProvider = ({ children }) => {
       } catch (err) {
         console.log("Error while adding items to cart:", err);
       }
-    }else {
+    } else {
       setCart((prevCartItems) => {
         const existingProductIndex = prevCartItems.findIndex(
-          (item) => item.product_id === product.productId,
+          (item) => item.product_id == product.productId,
         );
         if (existingProductIndex >= 0) {
           const updatedCart = [...prevCartItems];
@@ -58,6 +58,26 @@ export const CartProvider = ({ children }) => {
           ...prevCartItems,
           { product_id: product.productId, quantity: product.quantity },
         ];
+      });
+    }
+  };
+
+  const removeFromCart = async (id) => {
+    if (isLoggedIn) {
+      try {
+        await axios.delete(`/api/cart/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        const cartItems = await fetchCartItems();
+        setCart(cartItems);
+      } catch (err) {
+        console.log("Error while deleting items from cart:", err);
+      }
+    } else {
+      setCart((prevCartItems) => {
+        return prevCartItems.filter((item) => parseInt(item.product_id) !== id);
       });
     }
   };
@@ -92,6 +112,7 @@ export const CartProvider = ({ children }) => {
         isLoggedIn,
         setIsLoggedIn,
         addToCart,
+        removeFromCart,
         getCartCount,
         syncCartToDatabase,
       }}
