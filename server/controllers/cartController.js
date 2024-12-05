@@ -1,4 +1,4 @@
-import { getCartByUserId, getCartByUserAndProductId, addProductToCart, updateCart } from "../models/cartModel.js";
+import { getCartByUserId, getCartByUserAndProductId, addProductToCart, updateCart, deleteItemFromCart } from "../models/cartModel.js";
 
 export const getCart = async (req, res) => {
     try {
@@ -47,4 +47,19 @@ export const syncCart = async (req, res) => {
     }else {
         return res.status(200).json({message: "Cart items synced successfully"});
     }   
+}
+
+export const deleteItem = async (req, res) => {
+    const productId = req.params.id;
+    const userId = req.user.id;
+    try {
+        const result = await deleteItemFromCart(userId, productId);
+        if(result.length > 0) {
+            return res.status(200).json({message: "Deleted item from the cart successfully"});
+        }else {
+            return res.status(400).json({error: "Item doesn't exist in the cart"});
+        }
+    }catch(err) {
+        return res.status(500).json({error: "Something went wrong while deleting item from the cart"});
+    }
 }

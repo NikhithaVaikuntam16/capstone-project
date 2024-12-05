@@ -1,7 +1,7 @@
 import pool from "../config/db.js"
 
 export const getCartByUserId = async (userId) => {
-    const { rows } = await pool.query("SELECT * FROM cart WHERE user_id=$1", [userId]);
+    const { rows } = await pool.query("SELECT * FROM cart WHERE user_id=$1 ORDER BY id ASC", [userId]);
     return rows;
 }
 
@@ -17,5 +17,10 @@ export const addProductToCart = async (userId, productId, quantity) => {
 
 export const updateCart = async (quantity, userId, productId) => {
     const { rows } = await pool.query("UPDATE cart SET quantity=$1 WHERE user_id=$2 AND product_id=$3", [quantity, userId, productId]);
+    return rows;
+}
+
+export const deleteItemFromCart = async (userId, productId) => {
+    const { rows } = await pool.query("DELETE FROM cart WHERE user_id=$1 AND product_id=$2 RETURNING *", [userId, productId]);
     return rows;
 }
