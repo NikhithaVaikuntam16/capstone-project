@@ -7,6 +7,7 @@ import LoginForm from "./components/LoginForm";
 import NavBar from "./components/NavBar";
 import ProductListPage from "./components/ProductListPage";
 import ProductDetailPage from "./components/ProductDetailPage";
+import ShoppingCartPage from "./components/ShoppingCartPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/category/:id" element={<ProductListPage />} />
           <Route path="/products/:id" element={<ProductDetailPage />} />
+          <Route path="/cart" element={<ShoppingCartPage />} />
         </Routes>
         </CartProvider>
       </QueryClientProvider>
