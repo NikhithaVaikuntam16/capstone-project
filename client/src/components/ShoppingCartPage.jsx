@@ -73,6 +73,22 @@ const ShoppingCartPage = () => {
     setClickedItemId(null);
   };
 
+  const handleOrderClick = async () => {
+    try {
+      const response = await axios.put(
+        "/api/products/update-stock",
+        productDetails,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+    } catch (err) {
+      console.log("Error while updating stock:", err);
+    }
+  };
+
   return (
     productDetails.length > 0 && (
       <div className="cart-page">
@@ -216,10 +232,25 @@ const ShoppingCartPage = () => {
                 <h4>{(getTotalItemsCost() * 1.06).toFixed(2)}</h4>
               </div>
             </div>
-            <button className="place-order-btn" disabled={!isCartValid || !isLoggedIn}>
+            <button
+              className="place-order-btn"
+              disabled={!isCartValid || !isLoggedIn}
+              onClick={handleOrderClick}
+            >
               Place Order
             </button>
-            {(isCartValid && !isLoggedIn) && <p style={{color: "red", fontSize: "13px", letterSpacing: "0.4px" }}>Please <Link to="/login">Login</Link> to your account to place the order</p>}
+            {isCartValid && !isLoggedIn && (
+              <p
+                style={{
+                  color: "red",
+                  fontSize: "13px",
+                  letterSpacing: "0.4px",
+                }}
+              >
+                Please <Link to="/login">Login</Link> to your account to place
+                the order
+              </p>
+            )}
           </div>
         </div>
       </div>

@@ -9,3 +9,8 @@ export const getProductById = async (id) => {
     const { rows } = await pool.query("SELECT * FROM products WHERE id=$1", [id]);
     return rows;
 }
+
+export const updateStockById = async (stock, id) => {
+    const { rows } = await pool.query("UPDATE products SET stock=$1 WHERE id=$2 RETURNING *", [stock, id])
+    return rows;
+}
