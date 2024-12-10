@@ -105,6 +105,24 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  const clearCart = async () => {
+    if (isLoggedIn) {
+      try {
+        await axios.delete("/api/cart/all", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        const cartItems = await fetchCartItems();
+        setCart(cartItems);
+      } catch (err) {
+        console.log("Error while clearing the cart:", err);
+      }
+    } else {
+      setCart([]);
+    }
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -115,6 +133,7 @@ export const CartProvider = ({ children }) => {
         removeFromCart,
         getCartCount,
         syncCartToDatabase,
+        clearCart
       }}
     >
       {children}
