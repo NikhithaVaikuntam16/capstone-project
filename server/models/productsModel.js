@@ -10,7 +10,7 @@ export const getProductById = async (id) => {
     return rows;
 }
 
-export const updateStockById = async (stock, id) => {
-    const { rows } = await pool.query("UPDATE products SET stock=$1 WHERE id=$2 RETURNING *", [stock, id])
+export const updateStockById = async (client, quantity, id) => {
+    const { rows } = await client.query("UPDATE products SET stock= stock-$1 WHERE id=$2 AND stock >= $1 RETURNING *", [quantity, id]);
     return rows;
 }

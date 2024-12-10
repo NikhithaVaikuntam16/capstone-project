@@ -24,3 +24,8 @@ export const deleteItemFromCart = async (userId, productId) => {
     const { rows } = await pool.query("DELETE FROM cart WHERE user_id=$1 AND product_id=$2 RETURNING *", [userId, productId]);
     return rows;
 }
+
+export const deleteAllById = async (userId) => {
+    const { rows } = await pool.query("DELETE FROM cart WHERE user_id=$1 RETURNING *", [userId]);
+    return rows;
+}

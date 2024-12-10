@@ -10,8 +10,14 @@ const ShoppingCartPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isCartValid, setIsCartValid] = useState(true);
   const [clickedItemId, setClickedItemId] = useState(null);
-  const { cart, getCartCount, removeFromCart, addToCart, isLoggedIn } =
-    useContext(CartContext);
+  const {
+    cart,
+    getCartCount,
+    removeFromCart,
+    addToCart,
+    isLoggedIn,
+    clearCart,
+  } = useContext(CartContext);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -73,19 +79,33 @@ const ShoppingCartPage = () => {
     setClickedItemId(null);
   };
 
-  const handleOrderClick = async () => {
+  const handleOrderClick = async (productDetails) => {
     try {
-      const response = await axios.put(
-        "/api/products/update-stock",
-        productDetails,
+      const orderResponse = await axios.post(
+        "/api/orders",
+        {
+          productDetails,
+          totalPrice: (getTotalItemsCost() * 1.06).toFixed(2),
+        },
         {
           headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "application/json",
           },
         },
       );
+      if (orderResponse.data.success) {
+        alert(
+          `Order placed successfully!!! OrderID: ${orderResponse.data.orderId}`,
+        );
+        await clearCart();
+      } else {
+        console.error("Order placement failed. Response:", orderResponse.data);
+        alert("Failed to place the order. Please try again.");
+      }
     } catch (err) {
-      console.log("Error while updating stock:", err);
+      console.log("Error on clicking place order button:", err);
+      alert(`Failed to place the order. Please try again.!! ${err.message}`);
     }
   };
 
@@ -107,7 +127,12 @@ const ShoppingCartPage = () => {
                     />
                     <div>
                       <h3 style={{ marginTop: "0", lineHeight: "1.4" }}>
-                        {item.name}
+                        <Link
+                          to={`/products/${item.id}`}
+                          className="product-link"
+                        >
+                          {item.name}
+                        </Link>
                       </h3>
                       <p>${item.price}</p>
                       {item.stock >= item.quantity ? (
@@ -235,7 +260,7 @@ const ShoppingCartPage = () => {
             <button
               className="place-order-btn"
               disabled={!isCartValid || !isLoggedIn}
-              onClick={handleOrderClick}
+              onClick={() => handleOrderClick(productDetails)}
             >
               Place Order
             </button>

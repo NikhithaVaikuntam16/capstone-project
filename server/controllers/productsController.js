@@ -1,4 +1,4 @@
-import { getProductsByCategoryId, getProductById, updateStockById } from "../models/productsModel.js";
+import { getProductsByCategoryId, getProductById } from "../models/productsModel.js";
 
 export const getProducts = async (req, res) => {
     const categoryId = req.query.category;
@@ -41,20 +41,3 @@ export const getStockAvailability = async (req, res) => {
         return res.status(500).json("Something went wrong while checking stock availability");
     }
 };
-
-export const updateStock = async (req, res) => {
-    const productDetails = req.body;
-    try {
-        const updatePromises = productDetails.map(async (item) => {
-            if(item.stock < item.quantity) {
-                return res.status(400).json({ error: "Insufficient stock" });
-            }else {
-                await updateStockById((item.stock - item.quantity), item.id);
-            }
-        });
-        await Promise.all(updatePromises);
-        return res.status(200).json({ message: "Stock updated successfully!" });
-    }catch(err) {
-        return res.status(500).json(`Something went wrong while updating stock for product`);
-    }
-}

@@ -1,8 +1,12 @@
-import { getCartByUserId, getCartByUserAndProductId, addProductToCart, updateCart, deleteItemFromCart } from "../models/cartModel.js";
+import { getCartByUserId, getCartByUserAndProductId, addProductToCart, updateCart, deleteItemFromCart, deleteAllById } from "../models/cartModel.js";
 
 export const getCart = async (req, res) => {
+    const userId = req.user.id;
+    if (!userId) {
+        return res.status(400).json({ error: 'Invalid request data.' });
+    }
     try {
-        const cart = await getCartByUserId(req.user.id);
+        const cart = await getCartByUserId(userId);
         return res.status(200).json({cart});
     }catch(err) {
         return res.status(500).json({error: "Something went wrong while fetching cart items"});
@@ -61,5 +65,19 @@ export const deleteItem = async (req, res) => {
         }
     }catch(err) {
         return res.status(500).json({error: "Something went wrong while deleting item from the cart"});
+    }
+}
+
+export const deleteAll = async (req, res) => {
+    const userId = req.user.id;
+    try {
+        const deletedRows = await deleteAllById(userId);
+        if(deletedRows.length > 0) {
+            return res.status(200).json({message: "Deleted all items from the cart successfully"});
+        }else {
+            return res.status(400).json({error: "Items do not exist in the cart"});
+        }
+    }catch(err) {
+        return res.status(500).json({error: "Something went wrong while deleting items from the cart"});
     }
 }
