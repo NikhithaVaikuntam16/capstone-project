@@ -671,3 +671,49 @@ body {
     grid-area: 1 / 2 / 2 / 3;
   }
 }
+
+.orders-page {
+  margin-top: 5rem;
+  padding: 1rem 1.5rem;
+}
+
+.orders-page table {
+  border: 2px solid rgb(140 140 140);
+  width: 100%;
+  letter-spacing: 0.8px;
+}
+
+.orders-page thead{
+  background-color: #e7e7e6;
+}
+
+.orders-page tr{
+  text-align: center;
+  font-size: 14px;
+  border-bottom: 1px solid black;
+}
+
+.orders-page th, .orders-page td {
+  border: 1px solid rgb(160 160 160);
+  padding: 8px 10px;
+}
+
+.orders-page thead tr{
+  font-size: 16px;
+}
+
+.table-data {
+  cursor: pointer;
+}
+
+.table-data:hover {
+  background-color: #828281;
+  font-weight: bold;
+}
+
+.orderid-links {
+  text-decoration: none;
+  color: black;
+  display: block;
+  width: 100%;
+}
