@@ -32,16 +32,21 @@ const NavBar = () => {
   const handleLogout = () => {
     setIsMenuVisible(false);
     localStorage.removeItem("token");
+    localStorage.removeItem("userName");
     setIsLoggedIn(!!localStorage.getItem("token"));
   }
 
   return (
     <div className="navbar">
       <div className="navbar-left">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <Icon icon="logos:shopify" className="logo" />
+        <Link to="/" className="app-link">
+          <Icon icon="icon-park-outline:application-effect" className="app-logo"/>
         </Link>
         <ul className="category-list">
+          <div>
+            <p>Categories</p>
+            <hr />
+          </div>
           {categories?.map((category) => {
             return (
               <li key={category.id}>
@@ -64,7 +69,7 @@ const NavBar = () => {
             <div className="profile-menu">
               {isLoggedIn ? (
                 <div>
-                  <p>Hello</p>
+                  <p>Hello, {localStorage.getItem("userName")}</p>
                   <hr />
                   <ul>
                     <li>
@@ -113,12 +118,12 @@ const NavBar = () => {
             </div>
           )}
         </div>
-        <div>
+        <div className="display-icons">
           <Link to="/orders">
             <Icon icon="lets-icons:order" className="icons" />
           </Link>
         </div>
-        <div className="cart">
+        <div className="cart display-icons">
           <Link to="/cart">
             <Icon icon="game-icons:shopping-cart" className="cart-icon" />
             <span className="cart-count">{getCartCount()}</span>
