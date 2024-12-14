@@ -1,5 +1,5 @@
 import pool from "../config/db.js";
-import { insertOrderDetails, insertAllOrderedItems, getOrdersByUserId, getTotalItemsByOrderId } from "../models/ordersModel.js";
+import { insertOrderDetails, insertAllOrderedItems, getOrdersByUserId, getTotalItemsByOrderId, getOrderDetailsByOrderIdAndUserId, getOrderItemsByOrderId } from "../models/ordersModel.js";
 import { updateStockById } from "../models/productsModel.js";
 
 export const insertOrder = async (req, res) => {
@@ -47,5 +47,21 @@ export const getOrders = async (req, res) => {
         }
     }catch(err) {
         return res.status(500).json({error: "Something went wrong while fetching orders"});
+    }
+}
+
+export const getOrderDetails = async (req, res) => {
+    const { id } = req.params;
+    const userId = req.user.id;
+    try {
+        const orderInfo = await getOrderDetailsByOrderIdAndUserId(id, userId);
+        if(orderInfo) {
+            const orderedItems = await getOrderItemsByOrderId(id);
+            return res.status(200).json({orderDetails: {...orderInfo, order_items: orderedItems}});
+        }else {
+            return res.status(400).json({error: "Order doesn't exist"});
+        }
+    }catch(err) {
+        return res.status(500).json({error: "Something went wrong while fetching order details"});
     }
 }
