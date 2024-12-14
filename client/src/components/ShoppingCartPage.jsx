@@ -248,7 +248,7 @@ const ShoppingCartPage = () => {
             <div className="summary-div">
               <div>
                 <p>Items ({getCartCount()}):</p>
-                <p>Estimated tax:</p>
+                <p>Estimated Tax (6%):</p>
                 <h4>Total Amount:</h4>
               </div>
               <div className="price-details">

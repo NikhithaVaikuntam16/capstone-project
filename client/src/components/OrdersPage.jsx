@@ -5,6 +5,7 @@ import axios from "axios";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { isLoggedIn } = useContext(CartContext);
 
   useEffect(() => {
@@ -18,13 +19,21 @@ const OrdersPage = () => {
         setOrders(response.data.orders);
       } catch (err) {
         console.log("Error while fetching orders:", err);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     if (isLoggedIn) {
       fetchOrders();
+    }else {
+      setIsLoading(false);
     }
   }, [isLoggedIn]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   if (!isLoggedIn) {
     return (

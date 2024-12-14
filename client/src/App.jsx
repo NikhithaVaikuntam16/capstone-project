@@ -9,6 +9,7 @@ import ProductListPage from "./components/ProductListPage";
 import ProductDetailPage from "./components/ProductDetailPage";
 import ShoppingCartPage from "./components/ShoppingCartPage";
 import OrdersPage from "./components/OrdersPage";
+import OrderDetailsPage from "./components/OrderDetailsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +34,7 @@ const App = () => {
           <Route path="/products/:id" element={<ProductDetailPage />} />
           <Route path="/cart" element={<ShoppingCartPage />} />
           <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/orders/:id" element={<OrderDetailsPage />} />
         </Routes>
         </CartProvider>
       </QueryClientProvider>

@@ -66,6 +66,7 @@ const LoginForm = () => {
         });
         if (response.status === 200) {
           localStorage.setItem("token", response.data.token);
+          localStorage.setItem("userName", response.data.userName);
           navigate("/");
           await syncCartToDatabase();
           setIsLoggedIn(true);
