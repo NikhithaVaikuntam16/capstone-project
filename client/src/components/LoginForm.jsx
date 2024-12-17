@@ -45,6 +45,31 @@ const LoginForm = () => {
         [name]: value,
       };
     });
+    if (errors[name]) {
+      setErrors((prevErr) => ({
+        ...prevErr,
+        [name]: "",
+      }));
+    } else if (errors.generalError) {
+      setErrors((prevErr) => ({
+        ...prevErr,
+        generalError: "",
+      }));
+    }
+  };
+
+  const handleBlur = (event) => {
+    const { name, value } = event.target;
+
+    setErrors((prevErr) => {
+      let newErrors = { ...prevErr };
+      if (name === "email") {
+        newErrors.email = validateEmail(value);
+      } else if (name === "password") {
+        newErrors.password = validatePassword(value);
+      }
+      return newErrors;
+    });
   };
 
   async function handleSubmit(e) {
@@ -82,7 +107,7 @@ const LoginForm = () => {
 
   return (
     <div className="form-container">
-      <h2 className="form-heading">Log-in</h2>
+      <h2 className="form-heading">Login</h2>
       {errors.generalError && (
         <span className="span-errors general-error">{errors.generalError}</span>
       )}
@@ -94,6 +119,7 @@ const LoginForm = () => {
           label="Email"
           value={user.email}
           errors={errors.email}
+          onBlur={handleBlur}
         />
         <InputContainer
           onChange={handleChange}
@@ -102,12 +128,15 @@ const LoginForm = () => {
           label="Password"
           value={user.password}
           errors={errors.password}
+          onBlur={handleBlur}
         />
         <button className="submitBtn" type="submit">
           Continue
         </button>
       </form>
-      <Link to="/register" className="toggleBtn">New User? Create an account</Link>
+      <Link to="/register" className="toggleBtn">
+        New User? Create an account
+      </Link>
     </div>
   );
 };

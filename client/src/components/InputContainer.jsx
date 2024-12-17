@@ -8,6 +8,7 @@ const InputContainer = (props) => {
         name={props.name}
         type={props.type}
         value={props.value}
+        onBlur={props.onBlur}
       />
       {props.errors && <span className="span-errors">{props.errors}</span>}
     </div>

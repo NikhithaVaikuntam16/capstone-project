@@ -24,14 +24,14 @@ const RegistrationForm = () => {
     const regex = /^[a-zA-Z][a-zA-Z0-9_@$!]{2,9}$/;
     if (!userName) {
       return "Username is required";
-    } else if (userName.length < 3 || userName.length > 10){
+    } else if (userName.length < 3 || userName.length > 10) {
       return "Username should contain min(3) and max(10) characters";
     } else if (!regex.test(userName)) {
       return "Please enter a valid username (a-z, A-Z, 0-9, _, @, $, !)";
     } else {
       return "";
     }
-  }
+  };
 
   const validateEmail = (email) => {
     const regex = /^[^\s+_@-]+@[^\s+_@-]+\.[^\s+_@-]+$/;
@@ -72,33 +72,35 @@ const RegistrationForm = () => {
         [name]: value,
       };
     });
-
-    if(name === "Username") {
-      setErrors((prevErr) => {
-        return {
-          ...prevErr,
-          userName: validateUserName(value),
-        };
-      });
+    if (errors[name]) {
+      setErrors((prevErr) => ({
+        ...prevErr,
+        [name]: "",
+      }));
     }
+  };
 
-    if (name === "email") {
-      setErrors((prevErr) => {
-        return {
-          ...prevErr,
-          email: validateEmail(value),
-        };
-      });
-    }
+  const handleBlur = (event) => {
+    const { name, value } = event.target;
 
-    if (name === "password") {
-      setErrors((prevErr) => {
-        return {
-          ...prevErr,
-          password: validatePassword(value),
-        };
-      });
-    }
+    setErrors((prevErr) => {
+      let newErrors = { ...prevErr };
+
+      if (name === "userName") {
+        newErrors.userName = validateUserName(value);
+      } else if (name === "email") {
+        newErrors.email = validateEmail(value);
+      } else if (name === "password") {
+        newErrors.password = validatePassword(value);
+      } else if (name === "confirmPassword") {
+        newErrors.confirmPassword = validateConfirmPassword(
+          user.password,
+          value,
+        );
+      }
+
+      return newErrors;
+    });
   };
 
   const handleSubmit = async (event) => {
@@ -109,7 +111,7 @@ const RegistrationForm = () => {
     const passwordError = validatePassword(password);
     const confirmPasswordError = validateConfirmPassword(
       password,
-      confirmPassword
+      confirmPassword,
     );
     if (userNameError || emailError || passwordError || confirmPasswordError) {
       setErrors({
@@ -118,6 +120,7 @@ const RegistrationForm = () => {
         password: passwordError,
         confirmPassword: confirmPasswordError,
       });
+      return;
     } else {
       try {
         const result = await axios.post(
@@ -131,9 +134,9 @@ const RegistrationForm = () => {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
             },
-          }
+          },
         );
-        if(result.status === 201) {
+        if (result.status === 201) {
           setUser({
             userName: "",
             email: "",
@@ -163,13 +166,14 @@ const RegistrationForm = () => {
     <div className="form-container">
       <h2 className="form-heading">Create your account</h2>
       <form onSubmit={handleSubmit}>
-      <InputContainer
+        <InputContainer
           onChange={handleChange}
           name="userName"
           type="text"
           label="Username"
           value={user.userName}
           errors={errors.userName}
+          onBlur={handleBlur}
         />
         <InputContainer
           onChange={handleChange}
@@ -178,6 +182,7 @@ const RegistrationForm = () => {
           label="Email"
           value={user.email}
           errors={errors.email}
+          onBlur={handleBlur}
         />
         <InputContainer
           onChange={handleChange}
@@ -186,6 +191,7 @@ const RegistrationForm = () => {
           label="Password"
           value={user.password}
           errors={errors.password}
+          onBlur={handleBlur}
         />
         <InputContainer
           onChange={handleChange}
@@ -194,6 +200,7 @@ const RegistrationForm = () => {
           label="Confirm Password"
           value={user.confirmPassword}
           errors={errors.confirmPassword}
+          onBlur={handleBlur}
         />
         <button className="submitBtn" type="submit">
           Submit
