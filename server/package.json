@@ -4,11 +4,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "dev": "nodemon index.js",
     "prettify": "prettier . --write",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "nikhitha.vaikuntam@gmail.com",
   "license": "ISC",
   "description": "",
   "dependencies": {
