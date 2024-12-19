@@ -2,6 +2,9 @@
 
 This project implements a full-stack e-commerce web application, providing a user-friendly interface for browsing and purchasing products.  It features user authentication, a shopping cart, order management, and an intuitive product catalog.
 
+
+<img width="1720" alt="Screenshot 2024-12-19 at 8 03 15 AM" src="https://github.com/user-attachments/assets/2357bd7b-3177-453f-958c-f9eb7e7f6e7b" />
+
 ## Client-Side (React)
 
 The client-side is built using React, providing a dynamic and responsive user experience.  Key features and components include:
